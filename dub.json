@@ -1,0 +1,9 @@
+{
+	"name": "slack-get_s",
+	"authors": [
+		"小澤航太朗"
+	],
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2017, 小澤航太朗",
+	"license": "MIT"
+}
