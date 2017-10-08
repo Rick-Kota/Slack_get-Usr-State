@@ -3,18 +3,19 @@ import std.net.curl;
 import std.json,  std.file;
 import std.conv : to;
 
-immutable auto _User_listurl = "_____";
-immutable auto _token = "_____";
+immutable auto _User_listurl = "https://slack.com/api/users.list";
+
+string get_token()
+{
+	auto content = to!string(read("Setting.json"));
+	JSONValue[string] setting = parseJSON(content).object;
+	string data = setting["token"].str;
+	return data;
+}
 
 void get_List()
 {
-	//JSONValue list = parseJSON(post(_User_listurl,[ "token": _token ]));
-	//JSONValue presonObj = [
-	//    "id" : list["members"][num]["id"],
-	//    "word" : "status_text" !in list["members"][num]["profile"] ? parseJSON("null") :list["members"][num]["profile"]["status_text"],
-	//    "is_bot" : list["members"][num]["is_bot"]
-	//];
-	//writeln(presonObj);
+	const auto _token = get_token(); 
 	JSONValue list = parseJSON(post(_User_listurl,[ "token": _token ]));
 	JSONValue _Data;
 	foreach( test ; 0 .. list["members"].array.length - 1 )
@@ -27,7 +28,7 @@ void get_List()
 		];
 		writeln(toJSON(presonObj));
 
-		_Data["Person"][0] =  [toJSON(presonObj)];
+		_Data["Person"].array[0] =  presonObj.array;
 
 	}
 	writeln(_Data);
